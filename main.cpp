@@ -1,5 +1,9 @@
 #include <iostream>
 #include "F.hpp"
+#include "ContT.hpp"
+
+void testContT() {
+}
 
 int main(int argc, char** argv) {
   Suspender<int> x = done(2);
