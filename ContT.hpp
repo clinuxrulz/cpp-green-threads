@@ -8,6 +8,11 @@ struct ContT {
   F<F<A,M<R>>,M<R>> unContT;
 };
 
+template <typename R, template <typename> class M, typename A>
+M<R> runContT(ContT<R,M,A> c, F<A,M<R>> k) {
+  return call(c.unContT, k);
+}
+
 template <typename R, template <typename> class M, typename A, typename B>
 ContT<R,M,B> map(const F<A,B>& f, const ContT<R,M,A>& ma) {
   ContT<R,M,B> r;

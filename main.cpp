@@ -4,6 +4,10 @@
 #include "Identity.hpp"
 
 void testContT() {
+  ContT<int,Identity,int> x = pure<int,Identity,int>(1);
+  std::cout << runIdentity(runContT(x, arr(std::function<Identity<int>(int)>([=](int x) {
+    return mkIdentity(x);
+  })))) << std::endl;
 }
 
 int main(int argc, char** argv) {
@@ -15,5 +19,6 @@ int main(int argc, char** argv) {
   F<int,int> f = arr(std::function<int(int)>([](int a) { return a + 1; }));
   std::cout << runSuspender(y) << std::endl;
   std::cout << call(f, 5) << std::endl;
+  testContT();
   return 0;
 }

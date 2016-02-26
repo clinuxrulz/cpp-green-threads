@@ -7,6 +7,13 @@ struct Identity {
 };
 
 template <typename A>
+Identity<A> mkIdentity(A a) {
+  Identity<A> r;
+  r.value = a;
+  return r;
+}
+
+template <typename A>
 A runIdentity(Identity<A> ma) {
   return ma.value;
 }
