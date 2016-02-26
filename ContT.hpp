@@ -14,6 +14,24 @@ M<R> runContT(ContT<R,M,A> c, F<A,M<R>> k) {
 }
 
 template <typename R, template <typename> class M, typename A, typename B>
+ContT<R,M,A> callCC(F<F<A,ContT<R,M,B>>,ContT<R,M,A>> f) {
+  ContT<R,M,A> r;
+  r.unContT = arr([=](F<A,M<R>> k) {
+    return call(
+      call(f, arr([=](A a) {
+        ContT<R,M,B> r2;
+        r2.unContT = arr([=](F<B,M<R>> unused) {
+          return call(k, a);
+        });
+        return r2;
+      })).unContT,
+      k
+    );
+  });
+  return r;
+}
+
+template <typename R, template <typename> class M, typename A, typename B>
 ContT<R,M,B> map(const F<A,B>& f, const ContT<R,M,A>& ma) {
   ContT<R,M,B> r;
   r.unContT = arr([=](F<B,M<R>> k) {
