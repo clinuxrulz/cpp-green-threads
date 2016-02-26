@@ -47,8 +47,8 @@ struct F
   std::function<Suspender<B>(A)> func;
 };
 
-template <typename A, typename B>
-F<A,B> arr(std::function<B(A)> f) {
+template <typename A, typename B, class Func>
+F<A,B> arr(Func f) {
   F<A,B> r;
   r.func = [=](A x) { return done(f(x)); };
   return r;

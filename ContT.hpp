@@ -40,9 +40,9 @@ ContT<R,M,B> apply(const ContT<R,M,F<A,B>>& mf, const ContT<R,M,A>& ma) {
 template <typename R, template <typename> class M, typename A>
 ContT<R,M,A> pure(A a) {
   ContT<R,M,A> r;
-  r.unContT = arr(std::function<M<R>(F<A,M<R>>)>([=](F<A,M<R>> k) {
+  r.unContT = arr<F<A,M<R>>,M<R>>([=](F<A,M<R>> k) {
     return call(k, a);
-  }));
+  });
   return r;
 }
 
