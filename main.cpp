@@ -2,12 +2,22 @@
 #include "F.hpp"
 #include "ContT.hpp"
 #include "Identity.hpp"
+#include "Monad.hpp"
 
 void testContT() {
   ContT<int,Identity,int> x = pure<int,Identity,int>(1);
   std::cout << runIdentity(runContT(x, arr<int,Identity<int>>([=](int x) {
     return mkIdentity(x);
   }))) << std::endl;
+}
+
+void testDoNotation() {
+  Identity<int> ma = return_<Identity>(42);
+  Identity<int> mb = do_<Identity<int>>(
+    ma,
+    ma
+  );
+  std::cout << runIdentity(mb) << std::endl;
 }
 
 int main(int argc, char** argv) {
@@ -20,5 +30,6 @@ int main(int argc, char** argv) {
   std::cout << runSuspender(y) << std::endl;
   std::cout << call(f, 5) << std::endl;
   testContT();
+  testDoNotation();
   return 0;
 }

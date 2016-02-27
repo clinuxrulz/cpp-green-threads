@@ -18,4 +18,14 @@ A runIdentity(Identity<A> ma) {
   return ma.value;
 }
 
+template <typename A>
+Identity<A> pure(A a) {
+  return mkIdentity(a);
+}
+
+template <typename A, typename B>
+Identity<B> bind(const Identity<A>& ma, const F<A,Identity<B>>& f) {
+  return call(f, runIdentity(ma));
+}
+
 #endif // __IDENTITY_HPP__
