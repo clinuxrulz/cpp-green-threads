@@ -18,6 +18,16 @@ A runIdentity(Identity<A> ma) {
   return ma.value;
 }
 
+template <typename A, typename B>
+Identity<B> map(const F<A,B>& f, const Identity<A>& ma) {
+  return mkIdentity(call(f, runIdentity(ma)));
+}
+
+template <typename A, typename B>
+Identity<B> apply(const Identity<F<A,B>>& mf, const Identity<A>& ma) {
+  return mkIdentity(call(runIdentity(mf), runIdentity(ma)));
+}
+
 template <typename A>
 Identity<A> pure(A a) {
   return mkIdentity(a);

@@ -20,6 +20,21 @@ void testDoNotation() {
   std::cout << runIdentity(mb) << std::endl;
 }
 
+void testLift() {
+  Identity<int> ma = return_<Identity>(40);
+  Identity<int> mb = return_<Identity>(2);
+  Identity<int> mc = lift<Identity,int>(
+    arr<int,F<int,int>>([=](int x) {
+      return arr<int,int>([=](int y) {
+        return x + y;
+      });
+    }),
+    ma,
+    mb
+  );
+  std::cout << runIdentity(mc) << std::endl;
+}
+
 int main(int argc, char** argv) {
   Suspender<int> x = done(2);
   Suspender<int> y =
@@ -31,5 +46,6 @@ int main(int argc, char** argv) {
   std::cout << call(f, 5) << std::endl;
   testContT();
   testDoNotation();
+  testLift();
   return 0;
 }

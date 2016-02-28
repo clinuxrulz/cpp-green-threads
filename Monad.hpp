@@ -16,4 +16,19 @@ M<A> return_(A a) {
   return pure(a);
 }
 
+template <template <typename> class M, typename A, typename B>
+M<B> lift(const F<A,B>& f, const M<A>& ma) {
+  return map(f, ma);
+}
+
+template <template <typename> class M, typename R, typename Func, typename Task1, typename... Tasks>
+M<R> lift(const Func& f, Task1 task1, Tasks... tasks) {
+  return apply(map(f, task1), tasks...);
+}
+
+template <typename MR, typename Func, typename Task1, typename... Tasks>
+MR apply(const Func& f, Task1 task1, Tasks... tasks) {
+  return apply(apply(f, task1), tasks...);
+}
+
 #endif // __MONAD_HPP__
